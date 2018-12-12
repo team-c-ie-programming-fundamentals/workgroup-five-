@@ -33,7 +33,6 @@ def users_page():
 
 
 
-
 toots = {"octavio": ["hello", "Me encanta esto"],
          "pepe":["hello", "I love Python <3 "]}
 
@@ -41,14 +40,10 @@ toots = {"octavio": ["hello", "Me encanta esto"],
 @server.route("/create-toot/<user>/<toot>")
 
 def create_toot(user, toot): 
-#    return user + " wrote: " + \n + toot
-#    user = jsonify(user)
-#    toot = jsonify(toot)    
+
       
      toots[user].append(toot)
-    
-#    return toots[user].append(toot)
-#    toots = toots + toot
+
      return jsonify(toots[user])
     
 @server.route("/user-toots/<user>")
@@ -68,15 +63,25 @@ def follow_user(user, user_to_follow):
 
 @server.route("/follows/<user>")
 def get_all_follows(user): 
-    user_all_follows = []
-    for follow in follows[user]:
-        user_all_follows.append(follow)
-    return jsonify(user_all_follows)
-
+    if len(follows[user]) > 0: 
+        
+        user_all_follows = []
+        for follow in follows[user]:
+            user_all_follows.append(follow)
+        return jsonify(user_all_follows)
+    else: 
+        return user + "!! you don't follow anyone :( Stop playing videogames and sociallize!"
     
-
-
-
+@server.route("/unfollow-user/<user>/<user_to_unfollow>")
+def unfollow_user(user, user_to_unfollow):
+    if user_to_unfollow in follows[user]: 
+            
+        follows[user].remove(user_to_unfollow)
+        return jsonify(user + " has stopped following " + user_to_unfollow)
+    
+    else: 
+        return user + " does not follow " + user_to_unfollow
+        
 
 
 server.run()

@@ -28,9 +28,13 @@ def create_toot(user, toot):
 import requests
 def get_toots(user): 
     request = requests.get('http://127.0.0.1:5000/user-toots/' + user)
-    
     return request.json()
 
+
+def followers_list(user):
+    request = requests.get('http://127.0.0.1:5000/follows/' + user)
+    
+    return request.json()
 
 response = requests.get("http://127.0.0.1:5000/users")
 
