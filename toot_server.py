@@ -18,7 +18,8 @@ server = Flask("Toot server")
 
 
 follows = {"pepe": ["octavio"],
-           "agata": ["pepe", "octavio"]}
+           "agata": ["pepe", "octavio"],
+           "octavio":["agata"]}
 
 
 @server.route("/home")
@@ -57,9 +58,22 @@ def print_toots(user):
     for toot in toots[user]:
         user_all_toots.append(toot)
     return jsonify(user_all_toots)
+
+
+@server.route("/follow-user/<user>/<user_to_follow>")
+def follow_user(user, user_to_follow):
+    follows[user].append(user_to_follow)
+    return jsonify(user + " now follows " + user_to_follow)
+
+
+@server.route("/follows/<user>")
+def get_all_follows(user): 
+    user_all_follows = []
+    for follow in follows[user]:
+        user_all_follows.append(follow)
+    return jsonify(user_all_follows)
+
     
-
-
 
 
 

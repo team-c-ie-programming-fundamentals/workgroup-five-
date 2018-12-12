@@ -25,11 +25,11 @@ def create_toot(user, toot):
     
 #%%
 
-
+import requests
 def get_toots(user): 
-    return requests.get('http://127.0.0.1:5000/create-toot/' + user)
+    request = requests.get('http://127.0.0.1:5000/user-toots/' + user)
     
-    
+    return request.json()
 
 
 response = requests.get("http://127.0.0.1:5000/users")
