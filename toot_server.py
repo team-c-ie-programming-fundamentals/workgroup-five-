@@ -37,32 +37,27 @@ toots = {"octavio": ["hello", "Me encanta esto"],
          "pepe":["hello", "I love Python <3 "]}
 
 
-@server.route("/create-toot")
+@server.route("/create-toot/<user>/<toot>")
 
 def create_toot(user, toot): 
 #    return user + " wrote: " + \n + toot
 #    user = jsonify(user)
 #    toot = jsonify(toot)    
       
-#    return toots[user].append(toot)
+     toots[user].append(toot)
     
 #    return toots[user].append(toot)
 #    toots = toots + toot
-    print(toots)
-    return user + "  wrote: test " + toot
+     return jsonify(toots[user])
     
-#
+@server.route("/user-toots/<user>")
+
+def print_toots(user):
+    user_all_toots = []
+    for toot in toots[user]:
+        user_all_toots.append(toot)
+    return jsonify(user_all_toots)
     
-
-
-
-#def print_toots(toots):
-#    for toot in toots:
-#        return toot
-    
-#     users[user].toots.append(message)
-
-#    return toots[user].append(toot)
 
 
 

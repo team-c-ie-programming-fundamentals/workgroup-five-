@@ -25,6 +25,9 @@ def create_toot(user, toot):
     
 #%%
 
+
+def get_toots(user): 
+    return requests.get('http://127.0.0.1:5000/create-toot/' + user)
     
     
 
