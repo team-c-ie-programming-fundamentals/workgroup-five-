@@ -87,12 +87,13 @@ def unfollow_user(user, user_to_unfollow):
 def get_timeline(user): 
     timeline_user = []
     for toot in toots[user]:
-        timeline_user.append(toot)
+        timeline_user.append(user + " wrote: " + toot)
         
     timeline_follower = []
     for follower in follows[user]: 
         for toot in toots[follower]:
-            timeline_follower.append(toot)
+
+            timeline_follower.append(follower + " wrote: " + toot) 
             
     timeline_follower = timeline_follower[::-1]
     timeline_user = timeline_user[::-1]
