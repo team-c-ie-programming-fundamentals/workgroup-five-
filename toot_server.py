@@ -21,7 +21,6 @@ follows = {"pepe": ["octavio"],
            "agata": ["pepe", "octavio"],
            "octavio":["agata"]}
 
-
 @server.route("/home")
 def home_page(): 
     return "Welcome to Tooter"
@@ -41,11 +40,14 @@ toots = {"octavio": ["hello", "Me encanta esto"],
 @server.route("/create-toot/<user>/<toot>")
 
 def create_toot(user, toot): 
-
-      
-     toots[user].append(toot)
-
-     return jsonify(toots[user])
+     
+    if user in toots: 
+         toots[user].append(toot)
+    
+         return jsonify(toots[user])
+     
+    else: 
+        return jsonify("there's no user with that name")
     
 @server.route("/user-toots/<user>")
 
@@ -58,9 +60,17 @@ def print_toots(user):
 
 @server.route("/follow-user/<user>/<user_to_follow>")
 def follow_user(user, user_to_follow):
-    follows[user].append(user_to_follow)
-    return jsonify(user + " now follows " + user_to_follow)
-
+    if user in toots: 
+        
+        if user_to_follow in toots: 
+                
+            follows[user].append(user_to_follow)
+            return jsonify(user + " is following " + user_to_follow)
+        else: 
+            return jsonify("the user you are trying to follow doesn't exist")
+            
+    else: 
+        return jsonify("this user doesn't exist")
 
 @server.route("/follows/<user>")
 def get_all_follows(user): 
@@ -81,7 +91,7 @@ def unfollow_user(user, user_to_unfollow):
         return jsonify(user + " has stopped following " + user_to_unfollow)
     
     else: 
-        return user + " does not follow " + user_to_unfollow
+        return jsonify(user + " does not follow " + user_to_unfollow)
         
 @server.route("/timeline/<user>")
 def get_timeline(user): 
